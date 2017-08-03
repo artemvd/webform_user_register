@@ -1,0 +1,7 @@
+name: Webform User Register
+type: module
+description: Adds custom functionality to webform
+core: 8.x
+package: Webform
+dependencies:
+  - webform

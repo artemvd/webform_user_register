@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function webform_user_registration_theme() {
+  $info = [
+    'webform_handler_registration_summary' => [
+      'variables' => [
+        'settings' => NULL,
+        'user_fields' => [],
+        'web_form' => [],
+        'handler' => []
+      ],
+    ],
+  ];
+  return $info;
+}

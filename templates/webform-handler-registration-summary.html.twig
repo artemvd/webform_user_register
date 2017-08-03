@@ -1,0 +1,28 @@
+{#
+/**
+ * @file
+ * Default theme implementation for a summary of an YAML form email handler.
+ *
+ * Available variables:
+ * - settings: The current configuration for this email handler:
+ *   - text: The text.
+ * - handler: The handler information, including:
+ *   - id: The handler plugin id.
+ *   - handler_id: The handler id.
+ *   - label: The handler label.
+ *   - description: The handler description.
+ *
+ * @ingroup themeable
+ */
+#}
+<b>{{ 'Update users:'|t }}</b> {% if settings.update_user %} {{ 'Yes'|t }} {% else %} {{ 'No'|t }} {% endif %}<br/>
+<b>{{ 'Send user email:'|t }}</b> {% if settings.send_mail %} {{ 'Yes'|t }} {% else %} {{ 'No'|t }} {% endif %}<br/>
+<b>{{ 'User default role:'|t }}</b> {{ settings.user_role }}<br/>
+<b>{{ 'Form redirect URL field:'|t }}</b> {% if settings.redirect != '' %} {{ settings.redirect }} {% else %} {{ 'No redirect' |t }} {% endif %}<br/>
+{% for key, setting in settings %}
+    {% if key != 'update_user' %}
+        {% if user_fields[key] %}
+            <b>{{ user_fields[key].label }}</b>: {{ web_form[setting] }}<br/>
+        {% endif %}
+    {% endif %}
+{% endfor %}
