@@ -3,7 +3,7 @@
 /**
  * Implements hook_theme().
  */
-function webform_user_registration_theme() {
+function webform_user_register_theme() {
   $info = [
     'webform_handler_registration_summary' => [
       'variables' => [

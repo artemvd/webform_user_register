@@ -2,6 +2,7 @@
 
 namespace Drupal\webform_user_register\Plugin\WebformHandler;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\webform\Plugin\WebformHandlerBase;
@@ -21,8 +22,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *   label = @Translation("Register user"),
  *   category = @Translation("Registration"),
  *   description = @Translation("Registers user and logs into Drupal."),
- *   cardinality = \Drupal\webform\WebformHandlerInterface::CARDINALITY_UNLIMITED,
- *   results = \Drupal\webform\WebformHandlerInterface::RESULTS_PROCESSED,
+ *   cardinality = \Drupal\webform\Plugin\WebformHandlerInterface::CARDINALITY_UNLIMITED,
+ *   results = \Drupal\webform\Plugin\WebformHandlerInterface::RESULTS_PROCESSED,
  * )
  */
 class RegistrationFormHandler extends WebformHandlerBase implements WebformHandlerInterface {
@@ -44,12 +45,13 @@ class RegistrationFormHandler extends WebformHandlerBase implements WebformHandl
    * @param string $plugin_id
    * @param mixed $plugin_definition
    * @param \Psr\Log\LoggerInterface $logger
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
    * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, EntityTypeManagerInterface $entity_type_manager, AccountProxyInterface $currentUser, RequestStack $requestStack) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $logger, $entity_type_manager);
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerInterface $logger, ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, AccountProxyInterface $currentUser, RequestStack $requestStack) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $logger, $config_factory, $entity_type_manager);
     $this->currentUser = $currentUser;
     $this->request = $requestStack->getCurrentRequest();
   }
@@ -67,6 +69,7 @@ class RegistrationFormHandler extends WebformHandlerBase implements WebformHandl
       $plugin_id,
       $plugin_definition,
       $container->get('logger.factory')->get('webform'),
+      $container->get('config.factory'),
       $container->get('entity_type.manager'),
       $container->get('current_user'),
       $container->get('request_stack')
